@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Feb  9 10:19:12 2021
+Created on Thu Feb 11 09:28:54 2021
 
-@author: IU
+@author: Guray
 """
 
 import pyvisa
@@ -88,53 +88,24 @@ elif mode==1:
 elif mode==2:
     recfile.write('Time,Voltage,Current\n')
 
+start_time= time.time()
 
 for measurements in range(Points):
     if mode==0:
         V = dev_objs[indV].query('READ?')
         print(measurements, "- V: ", V[:-1])
-        recfile.write('%d,%2.6f,%2.6f\n' % (timeV, float(V)))
+        recfile.write('%3.2f,%2.6f,%2.6f\n' % (time.time()-start_time, float(V)))
     elif mode==1:
         I = dev_objs[indC].query('READ?')
         print(measurements, "- I: ", I[:-1])
-        recfile.write('%d,%2.6f\n' % (timeV,float(I)))
+        recfile.write('%3.2f,%2.6f,%2.6f\n' % (time.time()-start_time,float(I)))
     elif mode==2:
         V = dev_objs[indV].query('READ?')
         I = dev_objs[indC].query('READ?')
         print(measurements, "- V: ", V[:-1],", I: ",I[:-1])
-        recfile.write('%d,%2.6f,%2.6f\n' % (timeV, float(V),float(I)))
+        recfile.write('%3.2f,%2.6f,%2.6f\n' % (time.time()-start_time, float(V),float(I)))
     timeV +=MeasPeriod
     time.sleep(MeasPeriod)
 
 print("Recording completed...")
 recfile.close()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-    
